@@ -291,6 +291,7 @@
                 android:icon="@mipmap/ic_launcher_camera"
                 android:configChanges="orientation|screenSize|keyboardHidden"
                 android:clearTaskOnLaunch="true"
+            android:screenOrientation="landscape"
                 android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.media.action.IMAGE_CAPTURE" />
@@ -328,7 +329,9 @@
         <activity-alias android:icon="@mipmap/ic_launcher_camera"
                         android:label="@string/camera_label"
                         android:name="com.android.camera.CameraLauncher"
-                        android:targetActivity="com.android.camera.CameraActivity" >
+                        android:targetActivity="com.android.camera.CameraActivity"
+            android:screenOrientation="landscape"
+                         >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -339,6 +342,7 @@
         <activity-alias android:icon="@mipmap/ic_launcher_camera"
                         android:label="@string/camera_label"
                         android:name="com.android.camera.Camera"
+                        android:screenOrientation="landscape"
                         android:targetActivity="com.android.camera.CameraActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -349,7 +353,10 @@
         <activity-alias android:icon="@mipmap/ic_launcher_video_camera"
                 android:label="@string/video_camera_label"
                 android:name="com.android.camera.VideoCamera"
-                android:targetActivity="com.android.camera.CameraActivity" >
+                android:targetActivity="com.android.camera.CameraActivity"
+                
+            android:screenOrientation="landscape"
+                 >
             <intent-filter>
                 <action android:name="android.media.action.VIDEO_CAMERA" />
                 <category android:name="android.intent.category.DEFAULT" />

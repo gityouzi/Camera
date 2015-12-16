@@ -44,18 +44,18 @@ public class OrientationManager implements OrientationSource {
 
     public OrientationManager(Activity activity) {
         mActivity = activity;
-        mOrientationListener = new MyOrientationEventListener(activity);
+//        mOrientationListener = new MyOrientationEventListener(activity);
     }
 
     public void resume() {
         ContentResolver resolver = mActivity.getContentResolver();
-        mRotationLockedSetting = Settings.System.getInt(
-                resolver, Settings.System.ACCELEROMETER_ROTATION, 0) != 1;
-        mOrientationListener.enable();
+//        mRotationLockedSetting = Settings.System.getInt(
+//                resolver, Settings.System.ACCELEROMETER_ROTATION, 0) != 1;
+//        mOrientationListener.enable();
     }
 
     public void pause() {
-        mOrientationListener.disable();
+//        mOrientationListener.disable();
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -71,7 +71,7 @@ public class OrientationManager implements OrientationSource {
     public void lockOrientation() {
         if (mOrientationLocked) return;
         mOrientationLocked = true;
-        mActivity.setRequestedOrientation(calculateCurrentScreenOrientation());
+//        mActivity.setRequestedOrientation(calculateCurrentScreenOrientation());
     }
 
     // Unlock the framework orientation, so it can change when the device
@@ -80,7 +80,7 @@ public class OrientationManager implements OrientationSource {
         if (!mOrientationLocked) return;
         mOrientationLocked = false;
         Log.d(TAG, "unlock orientation");
-        mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+//        mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
     }
 
     private int calculateCurrentScreenOrientation() {
