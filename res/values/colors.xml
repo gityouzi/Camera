@@ -61,4 +61,8 @@
     <color name="face_detect_start">#80ffffff</color>
     <color name="face_detect_success">#8050d060</color>
     <color name="face_detect_fail">#80d05060</color>
+    
+    
+    <color name="btn_text_enable">#cccc00</color>
+    <color name="btn_text_disable">#cccccc</color>
 </resources>

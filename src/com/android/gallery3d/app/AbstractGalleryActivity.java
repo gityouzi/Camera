@@ -42,11 +42,12 @@ import com.android.gallery3d.ui.GLRoot;
 import com.android.gallery3d.ui.GLRootView;
 import com.android.gallery3d.util.LightCycleHelper.PanoramaViewHelper;
 import com.android.gallery3d.util.ThreadPool;
+import com.invision.camera.app.IVActivity;
 import com.invision.service.IYCServiceCallback;
 import com.invision.service.IYCServiceCallbackListener;
 import com.invision.service.YCServerManager;
 
-public class AbstractGalleryActivity extends Activity implements GalleryContext{
+public class AbstractGalleryActivity extends IVActivity implements GalleryContext{
     @SuppressWarnings("unused")
     private static final String TAG = "AbstractGalleryActivity";
     private GLRootView mGLRootView;
@@ -56,52 +57,6 @@ public class AbstractGalleryActivity extends Activity implements GalleryContext{
     private TransitionStore mTransitionStore = new TransitionStore();
     private boolean mDisableToggleStatusBar;
     private PanoramaViewHelper mPanoramaViewHelper;
-    //jiangxd add for ycservice
-    private YCServerManager mYCServiceClient;
-    private IYCServiceCallback mListener=new IYCServiceCallbackListener(){
-
-		@Override
-	public void onServiceConnected() {
-		mYCServiceClient.setYcControlMode(YCServerManager.YC_CONTROL_MODE_GESTURE);
-	}
-
-	@Override
-	public void onServiceReconnected() {
-		mYCServiceClient.setYcControlMode(YCServerManager.YC_CONTROL_MODE_GESTURE);
-	}
-
-	@Override
-	public void onGestureEvent(int mGestureAction) {
-		getStateManager().onGestureEvent(mGestureAction);
-	}
-
-	@Override
-	public void onHandsDetected(boolean mHands) {
-		getStateManager().onHandsDetected(mHands);
-	}
-
-	@Override
-	public void onPositionChanged(int x, int y) {
-		getStateManager().onPositionChanged(x,y);
-	}
-	
-	@Override
-	public void onPositionChangedExt(int offsetx, int isEdged) {
-		getStateManager().onPositionChangedExt(offsetx,isEdged);
-	}
-	@Override
-	public void onTouchScroll(int arg0,float x, float y) {
-		getStateManager().onTouchScroll(arg0,x,y);
-	}
-	
-	public void onTouchGesture(int action, float x, float y){
-//		getStateManager().onTouchGesture(action,x,y);
-	};
-	public void onTouchFling(float velocityX, float velocityY){
-		getStateManager().onTouchFling(velocityX,velocityY);
-	};
-    };
-    //end
     private AlertDialog mAlertDialog = null;
     private BroadcastReceiver mMountReceiver = new BroadcastReceiver() {
         @Override
@@ -120,9 +75,6 @@ public class AbstractGalleryActivity extends Activity implements GalleryContext{
         getWindow().setBackgroundDrawable(null);
         mPanoramaViewHelper = new PanoramaViewHelper(this);
         mPanoramaViewHelper.onCreate();
-        //jiangxd add for ycservice
-        mYCServiceClient = YCServerManager.getServerManager(this);
-        //end
     }
 
     @Override
@@ -256,9 +208,6 @@ public class AbstractGalleryActivity extends Activity implements GalleryContext{
         }
         mGLRootView.onResume();
         mOrientationManager.resume();
-		if(mYCServiceClient!=null){
-			mYCServiceClient.registerYCServiceCallback(mListener);
-		}
     }
 
     @Override
@@ -277,11 +226,6 @@ public class AbstractGalleryActivity extends Activity implements GalleryContext{
         clearBitmapPool(MediaItem.getThumbPool());
 
         MediaItem.getBytesBufferPool().clear();
-		//jiangxd add for ycservice
-		if (mYCServiceClient != null) {
-				mYCServiceClient.unregisterYCServiceCallback(mListener); 
-			}
-		//end
     }
 
     private static void clearBitmapPool(BitmapPool pool) {

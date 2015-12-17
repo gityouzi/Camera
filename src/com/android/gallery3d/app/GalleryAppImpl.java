@@ -31,10 +31,11 @@ import com.android.gallery3d.picasasource.PicasaSource;
 import com.android.gallery3d.util.GalleryUtils;
 import com.android.gallery3d.util.LightCycleHelper;
 import com.android.gallery3d.util.ThreadPool;
+import com.invision.camera.app.IVApplication;
 
 import java.io.File;
 
-public class GalleryAppImpl extends Application implements GalleryApp {
+public class GalleryAppImpl extends IVApplication implements GalleryApp {
 
     private static final String DOWNLOAD_FOLDER = "download";
     private static final long DOWNLOAD_CAPACITY = 64 * 1024 * 1024; // 64M

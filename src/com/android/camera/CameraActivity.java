@@ -30,13 +30,18 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.OrientationEventListener;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.camera.ui.CameraSwitcher;
 import com.android.givallery3d.R;
 import com.android.gallery3d.app.PhotoPage;
+import com.android.gallery3d.ui.Log;
 import com.android.gallery3d.util.LightCycleHelper;
+import com.invision.camera.app.CameraSwitch;
 
 public class CameraActivity extends ActivityBase
         implements CameraSwitcher.CameraSwitchListener {
@@ -48,12 +53,16 @@ public class CameraActivity extends ActivityBase
     CameraModule mCurrentModule;
     private FrameLayout mFrame;
     private ShutterButton mShutter;
-    private CameraSwitcher mSwitcher;
+//    private CameraSwitcher mSwitcher;
     private View mShutterSwitcher;
     private View mControlsBackground;
     private Drawable[] mDrawables;
     private int mCurrentModuleIndex;
     private MotionEvent mDown;
+    
+    private ImageView mPhoto;
+    private ImageView mVideo;
+    private CameraSwitch mCameraSwitch;
 
     private MyOrientationEventListener mOrientationListener;
     // The degrees of the device rotated clockwise from its natural orientation.
@@ -86,8 +95,9 @@ public class CameraActivity extends ActivityBase
             mCurrentModule = new PhotoModule();
             mCurrentModuleIndex = PHOTO_MODULE_INDEX;
         }
+        updateSwitchUI(mCurrentModuleIndex);
         mCurrentModule.init(this, mFrame, true);
-        mSwitcher.setCurrentIndex(mCurrentModuleIndex);
+//        mSwitcher.setCurrentIndex(mCurrentModuleIndex);
         mOrientationListener = new MyOrientationEventListener(this);
     }
 
@@ -95,8 +105,31 @@ public class CameraActivity extends ActivityBase
         mControlsBackground = findViewById(R.id.controls);
         mShutterSwitcher = findViewById(R.id.camera_shutter_switcher);
         mShutter = (ShutterButton) findViewById(R.id.shutter_button);
-        mSwitcher = (CameraSwitcher) findViewById(R.id.camera_switcher);
-        mSwitcher.setDrawIds(DRAW_IDS);
+        
+        mCameraSwitch = (CameraSwitch) findViewById(R.id.camera_switch);
+        setGestureTarget(mCameraSwitch);
+        mCameraSwitch.setup(this);
+        mPhoto = (ImageView) findViewById(R.id.photo);
+        mVideo = (ImageView) findViewById(R.id.video);
+        mPhoto.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				onCameraSelected(PHOTO_MODULE_INDEX);
+			}
+		});
+        mVideo.setOnClickListener(new OnClickListener() {
+        	
+        	@Override
+        	public void onClick(View arg0) {
+        		// TODO Auto-generated method stub
+				onCameraSelected(VIDEO_MODULE_INDEX);
+        	}
+        });
+        
+//        mSwitcher = (CameraSwitcher) findViewById(R.id.camera_switcher);
+//        mSwitcher.setDrawIds(DRAW_IDS);
         int[] drawids = new int[LightCycleHelper.hasLightCycleCapture(this)
                                 ? DRAW_IDS.length : DRAW_IDS.length - 1];
         int ix = 0;
@@ -106,9 +139,28 @@ public class CameraActivity extends ActivityBase
             }
             drawids[ix++] = DRAW_IDS[i];
         }
-        mSwitcher.setDrawIds(drawids);
-        mSwitcher.setSwitchListener(this);
-        mSwitcher.setCurrentIndex(mCurrentModuleIndex);
+//        mSwitcher.setDrawIds(drawids);
+//        mSwitcher.setSwitchListener(this);
+//        mSwitcher.setCurrentIndex(mCurrentModuleIndex);
+    }
+    private void updateSwitchUI(int model){
+    	switch (model) {
+		case PHOTO_MODULE_INDEX:
+			mPhoto.setImageResource(R.drawable.photo_enable);
+			mVideo.setImageResource(R.drawable.video_disable);
+			mPhoto.setAlpha(1f);
+			mVideo.setAlpha(0.2f);
+			break;
+		case VIDEO_MODULE_INDEX:
+			mPhoto.setImageResource(R.drawable.photo_disable);
+			mVideo.setImageResource(R.drawable.video_enable);
+			mPhoto.setAlpha(0.2f);
+			mVideo.setAlpha(1f);
+			break;
+
+		default:
+			break;
+		}
     }
 
     private class MyOrientationEventListener
@@ -156,12 +208,16 @@ public class CameraActivity extends ActivityBase
 
         }
     }
+    public void shutterPerformClick(){
+    	mShutter.performClick();
+    }
 
     private void doChangeCamera(int i) {
         boolean canReuse = canReuseScreenNail();
         CameraHolder.instance().keep();
         closeModule(mCurrentModule);
         mCurrentModuleIndex = i;
+        updateSwitchUI(mCurrentModuleIndex);
         switch (i) {
             case VIDEO_MODULE_INDEX:
                 mCurrentModule = new VideoModule();
@@ -238,14 +294,14 @@ public class CameraActivity extends ActivityBase
     }
 
     public void hideSwitcher() {
-        mSwitcher.closePopup();
-        mSwitcher.setVisibility(View.INVISIBLE);
+//        mSwitcher.closePopup();
+//        mSwitcher.setVisibility(View.INVISIBLE);
     }
 
     public void showSwitcher() {
-        if (mCurrentModule.needsSwitcher()) {
-            mSwitcher.setVisibility(View.VISIBLE);
-        }
+//        if (mCurrentModule.needsSwitcher()) {
+//            mSwitcher.setVisibility(View.VISIBLE);
+//        }
     }
 
     public boolean isInCameraApp() {
@@ -376,12 +432,12 @@ public class CameraActivity extends ActivityBase
         if (m.getActionMasked() == MotionEvent.ACTION_DOWN) {
             mDown = m;
         }
-        if ((mSwitcher != null) && mSwitcher.showsPopup() && !mSwitcher.isInsidePopup(m)) {
-            return mSwitcher.onTouch(null, m);
-        } else {
+//        if ((mSwitcher != null) && mSwitcher.showsPopup() && !mSwitcher.isInsidePopup(m)) {
+//            return mSwitcher.onTouch(null, m);
+//        } else {
             return mShutterSwitcher.dispatchTouchEvent(m)
                     || mCurrentModule.dispatchTouchEvent(m);
-        }
+//        }
     }
 
     @Override

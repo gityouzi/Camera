@@ -18,6 +18,10 @@
     android:id="@+id/camera_app_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+<FrameLayout
+    android:visibility="invisible"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <include layout="@layout/preview_module_frame"/>
 
@@ -53,4 +57,5 @@
 
     </FrameLayout>
 
+</FrameLayout>
 </FrameLayout>

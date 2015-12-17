@@ -41,4 +41,20 @@
         <attr name="largeIcons" format="reference" />
         <attr name="images" format="reference" />
     </declare-styleable>
+    
+    
+    <!-- IVSettings -->
+    <declare-styleable name="SettingItem">
+        <attr name="className" format="string" />
+        <attr name="packageName" format="string" />
+        <attr name="itemName" format="string" />
+        <attr name="iconRes" format="reference"  />
+    </declare-styleable>
+    <!-- comm viewgroup -->
+    <declare-styleable name="IVViewGroup">
+        <attr name="widthGap" format="dimension" />
+        <attr name="heightGap" format="dimension" />
+        <attr name="itemCountX" format="integer"  />
+        <attr name="itemCountY" format="integer"  />
+    </declare-styleable>
 </resources>
