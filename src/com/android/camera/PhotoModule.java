@@ -488,28 +488,28 @@ public class PhotoModule
             return;
         }
 
-        new AlertDialog.Builder(mActivity)
-            .setTitle(R.string.remember_location_title)
-            .setMessage(R.string.remember_location_prompt)
-            .setPositiveButton(R.string.remember_location_yes, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int arg1) {
-                    setLocationPreference(RecordLocationPreference.VALUE_ON);
-                }
-            })
-            .setNegativeButton(R.string.remember_location_no, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int arg1) {
-                    dialog.cancel();
-                }
-            })
-            .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialog) {
-                    setLocationPreference(RecordLocationPreference.VALUE_OFF);
-                }
-            })
-            .show();
+//        new AlertDialog.Builder(mActivity)
+//            .setTitle(R.string.remember_location_title)
+//            .setMessage(R.string.remember_location_prompt)
+//            .setPositiveButton(R.string.remember_location_yes, new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int arg1) {
+//                    setLocationPreference(RecordLocationPreference.VALUE_ON);
+//                }
+//            })
+//            .setNegativeButton(R.string.remember_location_no, new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int arg1) {
+//                    dialog.cancel();
+//                }
+//            })
+//            .setOnCancelListener(new DialogInterface.OnCancelListener() {
+//                @Override
+//                public void onCancel(DialogInterface dialog) {
+//                    setLocationPreference(RecordLocationPreference.VALUE_OFF);
+//                }
+//            })
+//            .show();
     }
 
     private void setLocationPreference(String value) {
